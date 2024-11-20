@@ -36,3 +36,24 @@
     transform: rotate(360deg);
   }
 }
+
+@media (max-width: 768px) {
+  .App-header {
+    font-size: calc(8px + 2vmin);
+    padding: 20px;
+  }
+
+  .App-link {
+    font-size: 1.2rem;
+  }
+}
+
+.App-link:hover {
+  color: #21a1f1;
+  text-decoration: underline;
+}
+
+
+
+
+

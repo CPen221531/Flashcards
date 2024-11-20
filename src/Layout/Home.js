@@ -24,6 +24,7 @@ const Home = () => {
   return (
     <div>
       <h1>Deck List</h1>
+      <Link to="/decks/new" className="btn btn-primary mb-3">Create Deck</Link>
       <ul>
         {decks.map((deck) => (
           <li key={deck.id} className="deck-item">
@@ -31,8 +32,8 @@ const Home = () => {
             <p>{deck.description}</p>
             <p>{deck.cards.length} cards</p>
             <div>
-              <Link to={`/decks/${deck.id}`} className="btn btn-primary">View</Link>
-              <Link to={`/decks/${deck.id}/study`} className="btn btn-secondary">Study</Link>
+              <Link to={`/decks/${deck.id}`} className="btn btn-primary mr-2">View</Link>
+              <Link to={`/decks/${deck.id}/study`} className="btn btn-secondary mr-2">Study</Link>
               <button className="btn btn-danger">Delete</button>
             </div>
           </li>

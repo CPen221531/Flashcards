@@ -11,8 +11,12 @@ const AddCard = () => {
 
   useEffect(() => {
     const fetchDeck = async () => {
-      const loadedDeck = await readDeck(deckId);
-      setDeck(loadedDeck);
+      try {
+        const loadedDeck = await readDeck(deckId);
+        setDeck(loadedDeck);
+      } catch (error) {
+        console.error("Error loading deck:", error);
+      }
     };
     fetchDeck();
   }, [deckId]);
@@ -22,9 +26,13 @@ const AddCard = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await createCard(deckId, { front, back });
-    setFront('');
-    setBack('');
+    try {
+      await createCard(deckId, { front, back });
+      setFront('');
+      setBack('');
+    } catch (error) {
+      console.error("Error creating card:", error);
+    }
   };
 
   const handleDone = () => navigate(`/decks/${deckId}`);

@@ -21,15 +21,23 @@ const DeckDetail = () => {
 
   const handleDeleteDeck = async () => {
     if (window.confirm("Are you sure you want to delete this deck? This action cannot be undone.")) {
-      await deleteDeck(deckId);
-      navigate('/');
+      try {
+        await deleteDeck(deckId);
+        navigate('/');
+      } catch (error) {
+        console.error("Error deleting deck:", error);
+      }
     }
   };
 
   const handleDeleteCard = async (cardId) => {
     if (window.confirm("Are you sure you want to delete this card? This action cannot be undone.")) {
-      await deleteCard(cardId);
-      setDeck({ ...deck, cards: deck.cards.filter((card) => card.id !== cardId) });
+      try {
+        await deleteCard(cardId);
+        setDeck({ ...deck, cards: deck.cards.filter((card) => card.id !== cardId) });
+      } catch (error) {
+        console.error("Error deleting card:", error);
+      }
     }
   };
 
