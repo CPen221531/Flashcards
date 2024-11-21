@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
-import { readDeck, createCard } from '../utils/api';
+import React, { useEffect, useState } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { readDeck, createCard } from "../utils/api";
+import FormComponent from "./FormComponent";
 
 const AddCard = () => {
   const { deckId } = useParams();
   const [deck, setDeck] = useState(null);
-  const [front, setFront] = useState('');
-  const [back, setBack] = useState('');
+  const [formData, setFormData] = useState({ front: "", back: "" });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,21 +21,25 @@ const AddCard = () => {
     fetchDeck();
   }, [deckId]);
 
-  const handleFrontChange = (event) => setFront(event.target.value);
-  const handleBackChange = (event) => setBack(event.target.value);
+  const handleChange = ({ target }) => {
+    const { name, value } = target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await createCard(deckId, { front, back });
-      setFront('');
-      setBack('');
+      await createCard(deckId, formData);
+      setFormData({ front: "", back: "" }); // Reset form fields
     } catch (error) {
       console.error("Error creating card:", error);
     }
   };
 
-  const handleDone = () => navigate(`/decks/${deckId}`);
+  const handleCancel = () => navigate(`/decks/${deckId}`);
 
   if (!deck) {
     return <p>Loading...</p>;
@@ -51,30 +55,12 @@ const AddCard = () => {
         </ol>
       </nav>
       <h2>{deck.name}: Add Card</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="front">Front</label>
-          <textarea
-            id="front"
-            className="form-control"
-            value={front}
-            onChange={handleFrontChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="back">Back</label>
-          <textarea
-            id="back"
-            className="form-control"
-            value={back}
-            onChange={handleBackChange}
-            required
-          />
-        </div>
-        <button type="submit" className="btn btn-primary mr-2">Save</button>
-        <button type="button" className="btn btn-secondary" onClick={handleDone}>Done</button>
-      </form>
+      <FormComponent 
+        formData={formData} 
+        onChange={handleChange} 
+        onSubmit={handleSubmit} 
+        onCancel={handleCancel} 
+      />
     </div>
   );
 };

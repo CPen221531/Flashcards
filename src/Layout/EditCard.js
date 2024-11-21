@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { readCard, updateCard } from '../utils/api';
-import FormComponent from './FormComponent';
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import { readCard, updateCard } from "../utils/api";
+import FormComponent from "./FormComponent";
 
 const EditCard = () => {
   const { cardId } = useParams();
@@ -22,8 +22,8 @@ const EditCard = () => {
 
   const handleChange = ({ target }) => {
     const { name, value } = target;
-    setCard((prevState) => ({
-      ...prevState,
+    setCard((prevCard) => ({
+      ...prevCard,
       [name]: value,
     }));
   };
@@ -46,14 +46,14 @@ const EditCard = () => {
     <div>
       <nav aria-label="breadcrumb">
         <ol className="breadcrumb">
-          <li className="breadcrumb-item"><a href="/">Home</a></li>
-          <li className="breadcrumb-item"><a href={`/decks/${card.deckId}`}>Deck {card.deckId}</a></li>
+          <li className="breadcrumb-item"><Link to="/">Home</Link></li>
+          <li className="breadcrumb-item"><Link to={`/decks/${card.deckId}`}>Deck {card.deckId}</Link></li>
           <li className="breadcrumb-item active" aria-current="page">Edit Card</li>
         </ol>
       </nav>
       <h2>Edit Card</h2>
       <FormComponent 
-        card={card} 
+        formData={card} 
         onChange={handleChange} 
         onSubmit={handleSubmit} 
         onCancel={handleCancel} 
